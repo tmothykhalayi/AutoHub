@@ -14,16 +14,8 @@ Welcome to AutoHub - A comprehensive vehicle rental management system featuring 
 ## 📋 Table of Contents
 
 - [System Overview](#-system-overview)
-- [Project Structure](#-project-structure)
-- [Key Features](#-key-features)
+- [System Features](#-system-features)
 - [Technologies](#-technologies)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Frontend Setup](#frontend-setup)
-  - [Backend Setup](#backend-setup)
-- [API Documentation](#-api-documentation)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
 - [License](#-license)
 
 ## 🏢 System Overview
@@ -34,44 +26,88 @@ The application consists of two main parts:
 - **Frontend**: React-based client application with TypeScript and TanStack Router
 - **Backend**: NestJS-based RESTful API with PostgreSQL database
 
-## 📁 Project Structure
+## ✨ System Features
 
-```
-AutoHub/
-├── Client/                      # Frontend React application
-│   ├── public/                  # Static assets
-│   └── src/                     # Source code
-│       ├── app/                 # App configuration
-│       ├── components/          # Reusable UI components
-│       ├── routes/              # TanStack Router routes
-│       └── ...                  # Other frontend modules
-│
-└── Server/                      # Backend NestJS application
-    ├── src/                     # Source code
-    │   ├── common/              # Shared utilities
-    │   ├── config/              # Configuration
-    │   ├── modules/             # Feature modules
-    │   └── ...                  # Other backend modules
-    └── test/                    # Test files
-```
+### Customer Portal
 
-## ✨ Key Features
+#### Vehicle Management
+- **Interactive Vehicle Catalog**: Browse vehicles with high-quality images and detailed specifications
+- **Advanced Filtering System**: Filter vehicles by type, manufacturer, model, price range, features, and availability
+- **Vehicle Comparison**: Compare multiple vehicles side by side to make informed decisions
+- **Availability Calendar**: Real-time vehicle availability displayed in an interactive calendar
+- **Vehicle Reviews**: Customer reviews and ratings for each vehicle
 
-### User-Facing Features
-- **Vehicle Browsing**: Filterable vehicle catalog with search functionality
-- **Booking System**: Intuitive booking process with date selection
-- **User Authentication**: Secure login/registration with JWT tokens
-- **Dashboard**: Personal dashboard for managing bookings and profile
-- **Payment Processing**: Integrated Stripe payment flow
-- **Responsive Design**: Mobile-first responsive design
+#### Booking System
+- **Streamlined Booking Process**: Easy-to-use booking wizard with step-by-step guidance
+- **Flexible Date Selection**: Interactive date picker with availability highlighting
+- **Multiple Location Support**: Options for pickup and drop-off at different locations
+- **Add-on Services**: Selection of additional services (insurance, GPS, child seats, etc.)
+- **Real-time Pricing**: Dynamic pricing calculation based on duration and selected options
 
-### Admin Features
-- **Dashboard Analytics**: Charts and metrics for business insights
-- **Vehicle Management**: CRUD operations for vehicle inventory
-- **User Management**: Admin controls for user accounts
-- **Booking Management**: View and manage all bookings
-- **Reporting System**: Financial and operational reports
-- **Support Management**: Customer ticket handling system
+#### User Account Management
+- **Personalized User Dashboard**: Overview of past, current, and upcoming bookings
+- **Profile Management**: Update personal information, preferences, and payment methods
+- **Booking History**: Complete history with detailed information on past rentals
+- **Document Storage**: Upload and store driving licenses and identification documents
+- **Favorites System**: Save favorite vehicles for quick access in future visits
+
+#### Payment Processing
+- **Secure Payment Gateway**: PCI-compliant payment processing through Stripe
+- **Multiple Payment Options**: Credit/debit cards, digital wallets, and direct bank transfers
+- **Booking Deposit System**: Option for partial payment with security deposit
+- **Digital Receipts**: Automated email receipts for all transactions
+- **Flexible Cancellation**: Tiered cancellation policy with automatic refund processing
+
+#### Customer Support
+- **In-app Support Chat**: Real-time assistance through integrated chat system
+- **Support Ticket System**: Create and track support requests
+- **FAQ Knowledge Base**: Comprehensive self-service support resources
+- **Notification System**: SMS and email alerts for booking confirmations, reminders, and changes
+- **Feedback Mechanism**: Post-rental surveys to gather customer feedback
+
+### Administration Portal
+
+#### Dashboard & Analytics
+- **Business Intelligence Dashboard**: Real-time overview of key performance metrics
+- **Booking Analytics**: Detailed booking patterns, trends, and forecasts
+- **Revenue Reports**: Comprehensive financial reporting with breakdown by vehicle type, location, and time period
+- **Fleet Utilization Metrics**: Analytics on vehicle usage, idle time, and optimization opportunities
+- **Customer Insights**: User behavior analysis and demographic reporting
+
+#### Vehicle Fleet Management
+- **Centralized Inventory Control**: Complete fleet management with status tracking
+- **Maintenance Scheduling**: Automated maintenance reminders based on mileage or time intervals
+- **Vehicle Lifecycle Management**: Track acquisition, depreciation, and disposal
+- **Cost Analysis**: Monitor operating costs, maintenance expenses, and revenue per vehicle
+- **Location Management**: Track and manage vehicles across multiple locations
+
+#### Reservation Management
+- **Comprehensive Booking Overview**: All reservations with filtering and search capabilities
+- **Calendar View**: Visual booking calendar with drag-and-drop functionality
+- **Conflict Resolution**: Tools to identify and resolve booking conflicts
+- **Bulk Operations**: Process multiple bookings simultaneously
+- **Custom Pricing Rules**: Set special rates, discounts, and seasonal pricing
+
+#### User Administration
+- **User Management Console**: Manage customer accounts and staff permissions
+- **Role-based Access Control**: Granular permission settings for different staff roles
+- **User Verification System**: ID verification workflow for new customers
+- **Activity Logging**: Track user and admin actions for security and auditing
+- **Customer Communication Tools**: Direct messaging and email templates
+
+#### Financial Operations
+- **Automated Billing System**: Generate invoices and process payments automatically
+- **Revenue Management**: Tools for optimizing pricing and maximizing revenue
+- **Expense Tracking**: Monitor operational costs and vendor payments
+- **Financial Reporting**: Generate detailed financial statements and tax reports
+- **Accounting Integration**: Connect with popular accounting software
+
+#### System Configuration
+- **White-label Customization**: Brand customization options for franchise operations
+- **Email Template Editor**: Customize all system email communications
+- **Policy Management**: Configure rental policies, terms, and conditions
+- **Multi-language Support**: Localization options for international operations
+- **System Backup**: Automated backup and recovery procedures
 
 ## 🔧 Technologies
 
@@ -90,185 +126,6 @@ AutoHub/
 - Stripe for payment processing
 - NodeMailer for email notifications
 - Swagger/OpenAPI for API documentation
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18.0 or higher
-- PostgreSQL 12.0 or higher
-- pnpm package manager
-
-### Frontend Setup
-
-1. **Navigate to the Client directory**
-```bash
-cd AutoHub/Client
-```
-
-2. **Install dependencies**
-```bash
-pnpm install
-```
-
-3. **Environment configuration**
-```bash
-cp .env.example .env
-```
-
-Edit the `.env` file with your configuration:
-```env
-VITE_API_URL="http://localhost:3001/api"
-VITE_STRIPE_PUBLISHABLE_KEY="pk_test_your-stripe-publishable-key"
-VITE_APP_NAME="AutoHub"
-```
-
-4. **Start the development server**
-```bash
-pnpm start
-```
-
-The frontend application will be available at http://localhost:5173
-
-### Backend Setup
-
-1. **Navigate to the Server directory**
-```bash
-cd AutoHub/Server
-```
-
-2. **Install dependencies**
-```bash
-pnpm install
-```
-
-3. **Environment configuration**
-```bash
-cp .env.example .env
-```
-
-Edit the .env file with your configuration:
-```env
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/autohub"
-
-# JWT
-JWT_SECRET="your-super-secret-jwt-key-at-least-32-characters"
-JWT_EXPIRES_IN="7d"
-REFRESH_TOKEN_EXPIRES_IN="30d"
-
-# Stripe
-STRIPE_SECRET_KEY="sk_test_your-stripe-secret-key"
-STRIPE_WEBHOOK_SECRET="whsec_your-webhook-secret"
-
-# Email Configuration
-EMAIL_HOST="smtp.example.com"
-EMAIL_PORT=587
-EMAIL_USER="your-email@example.com"
-EMAIL_PASSWORD="your-email-password"
-EMAIL_FROM="AutoHub <noreply@autohub.com>"
-EMAIL_SECURE=false
-
-# Application
-PORT=3001
-NODE_ENV=development
-CORS_ORIGIN="http://localhost:5173"
-```
-
-4. **Database setup**
-```bash
-# Create database (ensure PostgreSQL is running)
-createdb autohub
-
-# Run TypeORM migrations
-pnpm run typeorm:migration:run
-
-# Seed with sample data (optional)
-pnpm run seed
-```
-
-5. **Start the development server**
-```bash
-pnpm run start:dev
-```
-
-The backend API will be available at http://localhost:3001
-
-## 📖 API Documentation
-
-Once the server is running, access the auto-generated Swagger documentation at:
-```
-http://localhost:3001/api
-```
-
-### Key API Endpoints
-
-#### Authentication
-- `POST /auth/register` - User registration
-- `POST /auth/login` - User login
-- `GET /auth/profile` - Get current user profile
-
-#### Vehicles
-- `GET /vehicles` - Get all vehicles with filtering
-- `GET /vehicles/:id` - Get vehicle by ID
-- `GET /vehicles/:id/availability` - Check vehicle availability
-
-#### Bookings
-- `GET /bookings` - Get user's bookings
-- `POST /bookings` - Create new booking
-- `PUT /bookings/:id` - Update booking
-- `DELETE /bookings/:id` - Cancel booking
-
-#### Payments
-- `POST /payments/create-intent` - Create payment intent
-- `POST /payments/confirm` - Confirm payment
-
-## 🚀 Deployment
-
-### Frontend Deployment
-
-#### Build for Production
-```bash
-cd AutoHub/Client
-pnpm build
-```
-
-#### Deployment Platforms
-- **Vercel**: Automatic deployment from GitHub
-- **Netlify**: Automatic deployment with netlify.toml configuration
-- **GitHub Pages**: Manual deployment with gh-pages package
-
-### Backend Deployment
-
-#### Build for Production
-```bash
-cd AutoHub/Server
-pnpm build
-```
-
-#### Deployment Options
-- **Render**: Web service with PostgreSQL integration
-- **Azure**: App Service deployment with Azure CLI
-- **Docker**: Container deployment with included Dockerfile
-- **AWS**: Elastic Beanstalk or EC2 deployment
-
-## 🤝 Contributing
-
-### Development Guidelines
-- Follow TypeScript best practices
-- Write tests for new features
-- Update documentation when adding features
-- Follow established code structure and patterns
-- Use provided linting and formatting tools
-
-### Commit Message Convention
-```
-feat: add new vehicle filter component
-fix: resolve booking date validation issue
-docs: update routing documentation
-style: improve responsive design for mobile
-refactor: simplify authentication logic
-test: add tests for payment component
-```
 
 ## 📄 License
 
