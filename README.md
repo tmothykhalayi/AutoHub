@@ -16,6 +16,7 @@ Welcome to AutoHub - A comprehensive vehicle rental management system featuring 
 - [System Overview](#-system-overview)
 - [System Features](#-system-features)
 - [Technologies](#-technologies)
+- [System Workflows](#-system-workflows)
 - [License](#-license)
 
 ## 🏢 System Overview
@@ -134,3 +135,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 AutoHub - A comprehensive vehicle rental management system with React frontend and NestJS backend.
+
+## 📊 System Workflows
+
+### Admin User Flow
+![Admin Workflow Diagram](Adinflow.png)
+*This diagram illustrates the administrative user journey, showing the key interactions and processes for system administrators.*
+
+### Customer User Flow
+![Customer Workflow Diagram](customerflow.png)
+*This diagram shows the complete customer journey from registration to booking completion, highlighting the intuitive user experience.*
