@@ -139,7 +139,7 @@ AutoHub - A comprehensive vehicle rental management system with React frontend a
 ## 📊 System Workflows
 
 ### Admin User Flow
-![Admin Workflow Diagram](Adinflow.png)
+![Admin Workflow Diagram](Adminflow.png)
 *This diagram illustrates the administrative user journey, showing the key interactions and processes for system administrators.*
 
 ### Customer User Flow
