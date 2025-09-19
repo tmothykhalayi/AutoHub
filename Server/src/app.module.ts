@@ -11,9 +11,29 @@ import { FleetModule } from './fleet/fleet.module';
 import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
 import { VehicleCategoryModule } from './vehicle-category/vehicle-category.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
+import {LoggerMiddleware} from  './logger.middleware'
+import {AllExceptionsFilter} from './http-exception.filter'
 
 @Module({
-  imports: [UsersModule, VehiclesModule, BookingsModule, PaymentsModule, LocationsModule, SupportModule, FleetModule, MailModule, AuthModule, VehicleCategoryModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    UsersModule, 
+    VehiclesModule, 
+    BookingsModule, 
+    PaymentsModule, 
+    LocationsModule, 
+    SupportModule, 
+    FleetModule, 
+    MailModule, 
+    AuthModule, 
+    VehicleCategoryModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

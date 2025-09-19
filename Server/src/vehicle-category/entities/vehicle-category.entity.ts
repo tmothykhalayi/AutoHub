@@ -1,4 +1,6 @@
-export class VehicleCategory {}
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Vehicle } from '../../vehicles/entities/vehicle.entity';
+
 @Entity('vehicle_categories')
 export class VehicleCategory {
   @PrimaryGeneratedColumn('uuid')

@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { VehicleCategory } from '../../categories/entities/vehicle-category.entity';
+import { VehicleCategory } from '../../vehicle-category/entities/vehicle-category.entity';
 import { Location } from '../../locations/entities/location.entity';
-import { Booking } from '../../bookings/entities/booking.entity';       
+import { Booking } from '../../bookings/entities/booking.entity';  
+
 @Entity('vehicles')
 export class Vehicle {
   @PrimaryGeneratedColumn('uuid')

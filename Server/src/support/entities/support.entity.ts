@@ -1,10 +1,11 @@
-export class Support {}
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 @Entity('support_tickets')
 export class SupportTicket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, user => user.supportTickets)
+  @ManyToOne(() => User, user => user.supportTickets, { eager: true })
   user: User;
 
   @Column()

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Booking } from '../../bookings/entities/booking.entity';
 import { Payment } from '../../payments/entities/payment.entity';
-import { SupportTicket } from '../../support/entities/support-ticket.entity';
+import { SupportTicket } from '../../support/entities/support.entity';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')

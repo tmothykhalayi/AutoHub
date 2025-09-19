@@ -1,19 +1,22 @@
-export class Payment {}
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Booking } from '../../bookings/entities/booking.entity';
+
 @Entity('payments')
 export class Payment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, user => user.payments)
-  user: User;
-
-  @OneToOne(() => Booking, booking => booking.payment)
+  @OneToOne(() => Booking, booking => booking.payment, { eager: true })
   booking: Booking;
 
-  @Column()
+  @ManyToOne(() => User, user => user.payments, { eager: true })
+  user: User;
+
+  @Column('decimal', { precision: 10, scale: 2 })
   amount: number;
 
-  @Column()
+  @Column({ type: 'enum', enum: ['pending', 'completed', 'failed'], default: 'pending' })
   status: 'pending' | 'completed' | 'failed';
 
   @Column()

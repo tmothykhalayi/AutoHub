@@ -1,4 +1,6 @@
-export class Location {}
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Vehicle } from '../../vehicles/entities/vehicle.entity';
+
 @Entity('locations')
 export class Location {
   @PrimaryGeneratedColumn('uuid')
