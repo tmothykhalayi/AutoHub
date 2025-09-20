@@ -13,7 +13,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { LoginAuthDto } from './dto/login.dto';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { Users, UserRole } from '../users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
+import { Role } from './enums/role.enum';
 import { MailService } from '../mail/mail.service';
 import * as speakeasy from 'speakeasy';
 import { UsersService } from '../users/users.service';
@@ -23,8 +24,8 @@ export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
   constructor(
-    @InjectRepository(Users)
-    private readonly userRepository: Repository<Users>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly mailService: MailService,
@@ -36,11 +37,10 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
     user: {
-      id: number;
+      id: string;
       email: string;
-      firstName: string;
-      lastName: string;
-      role: string;
+      full_name: string;
+      role: Role;
     };
   }> {
     // 1. Check if user already exists
@@ -54,12 +54,11 @@ export class AuthService {
     // 2. Create user with role-specific profile using UsersService
     const user = await this.usersService.createUserWithRole({
       email: createAuthDto.email,
-      firstName: createAuthDto.firstName,
-      lastName: createAuthDto.lastName,
-      phoneNumber: createAuthDto.phoneNumber,
+      full_name: `${createAuthDto.firstName} ${createAuthDto.lastName}`,
+      contact_phone: createAuthDto.phoneNumber,
       password: createAuthDto.password,
-      role: createAuthDto.role as unknown as UserRole,
-      isEmailVerified: false,
+      role: createAuthDto.role as unknown as Role,
+      email_verified: false,
     });
 
     // 3. Generate tokens
@@ -77,8 +76,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        full_name: user.full_name,
         role: user.role,
       },
     };
@@ -89,11 +87,10 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
     user: {
-      id: number;
+      id: string;
       email: string;
-      firstName: string;
-      lastName: string;
-      role: string;
+      full_name: string;
+      role: Role;
     };
   }> {
     try {
@@ -104,8 +101,7 @@ export class AuthService {
           'id',
           'email',
           'password',
-          'firstName',
-          'lastName',
+          'full_name',
           'role',
           'hashedRefreshToken',
         ],
@@ -158,8 +154,7 @@ export class AuthService {
         user: {
           id: user.id,
           email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          full_name: user.full_name,
           role: user.role,
         },
       };
@@ -174,7 +169,7 @@ export class AuthService {
     try {
       const user = await this.userRepository.findOne({
         where: { email },
-        select: ['id', 'email', 'firstName', 'lastName', 'role'],
+        select: ['id', 'email', 'full_name', 'role'],
       });
       if (!user) {
         this.logger.warn(
@@ -182,7 +177,7 @@ export class AuthService {
         );
         throw new NotFoundException('User not found');
       }
-      await this.mailService.sendWelcomeEmail(user);
+      await this.mailService.sendWelcomeEmail(email, user.full_name);
       this.logger.log(`Welcome email sent to ${email}`);
     } catch (error) {
       this.logger.error(`Failed to send welcome email: ${error.message}`);
@@ -190,7 +185,7 @@ export class AuthService {
     }
   }
   // ===== REFRESH TOKENS =====
-  async refreshTokens(userId: number, refreshToken: string) {
+  async refreshTokens(userId: string, refreshToken: string) {
     try {
       if (!refreshToken) {
         this.logger.error('No refresh token provided');
@@ -251,7 +246,7 @@ export class AuthService {
   }
 
   // ===== SIGN OUT =====
-  async signOut(userId: number) {
+  async signOut(userId: string) {
     try {
       const user = await this.userRepository.findOne({ where: { id: userId } });
 
@@ -275,13 +270,13 @@ export class AuthService {
 
   // ===== GET TOKENS =====
   private async getTokens(
-    userId: number,
+    userId: string,
     email: string,
-    role: string,
+    role: Role,
   ): Promise<{
     accessToken: string;
     refreshToken: string;
-    role: string | undefined;
+    role: Role | undefined;
   }> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
@@ -304,7 +299,7 @@ export class AuthService {
   }
 
   // ===== UPDATE REFRESH TOKEN =====
-  private async updateRefreshToken(userId: number, refreshToken: string) {
+  private async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
     this.logger.log(`Updating hashed refresh token for user ID: ${userId}`);
 
@@ -336,7 +331,7 @@ export class AuthService {
     try {
       const user = await this.userRepository.findOne({
         where: { email },
-        select: ['id', 'email', 'firstName', 'lastName', 'role'],
+        select: ['id', 'email', 'full_name', 'role'],
       });
 
       if (!user) {
@@ -355,8 +350,8 @@ export class AuthService {
         otpExpiry: new Date(Date.now() + 4 * 60 * 1000), // 4 minutes from now
       });
 
-      // Send password reset email
-      await this.mailService.sendPasswordResetEmail(user, otp);
+      // Send password reset email with OTP as the resetLink
+      await this.mailService.sendPasswordReset(email, user.full_name, otp);
 
       this.logger.log(`Password reset email sent to ${email}`);
 
@@ -380,8 +375,7 @@ export class AuthService {
         select: [
           'id',
           'email',
-          'firstName',
-          'lastName',
+          'full_name',
           'role',
           'otp',
           'secret',
@@ -429,7 +423,7 @@ export class AuthService {
 
       // Send password reset success email
       try {
-        await this.mailService.sendPasswordResetSuccessEmail(user);
+        await this.mailService.sendPasswordResetSuccessEmail(email, user.full_name);
       } catch (emailError) {
         this.logger.warn(
           `Failed to send password reset success email: ${emailError.message}`,

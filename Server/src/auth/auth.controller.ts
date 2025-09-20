@@ -128,7 +128,7 @@ export class AuthController {
       },
     },
   })
-  async signOut(@GetCurrentUserId() userId: number) {
+  async signOut(@GetCurrentUserId() userId: string) {
     await this.authService.signOut(userId);
     return { message: 'Successfully signed out' };
   }

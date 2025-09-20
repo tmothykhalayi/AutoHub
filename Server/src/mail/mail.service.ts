@@ -145,6 +145,29 @@ export class MailService {
   }
 
   /**
+   * Send password reset success email
+   * @param email User's email address
+   * @param name User's name
+   */
+  async sendPasswordResetSuccessEmail(email: string, name: string): Promise<void> {
+    try {
+      await this.mailerService.sendMail({
+        to: email,
+        subject: 'Password Reset Successful - AutoHub',
+        template: 'password-reset-success',
+        context: {
+          name,
+          date: new Date().toLocaleDateString(),
+        },
+      });
+      this.logger.log(`Password reset success email sent to ${email}`);
+    } catch (error) {
+      this.logger.error(`Failed to send password reset success email to ${email}`, error.stack);
+      throw error;
+    }
+  }
+
+  /**
    * Send a generic email
    * @param to Recipient email address
    * @param subject Email subject

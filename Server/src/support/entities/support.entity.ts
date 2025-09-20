@@ -5,7 +5,7 @@ export class SupportTicket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, user => user.supportTickets, { eager: true })
+  @ManyToOne(() => User, user => user.support_tickets, { eager: true })
   user: User;
 
   @Column()
