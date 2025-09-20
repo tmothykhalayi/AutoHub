@@ -4,8 +4,12 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { MailService } from './mail.service';
-import { MailController } from './mail.controller';
+import * as Handlebars from 'handlebars';
 
+// Register custom Handlebars helpers
+Handlebars.registerHelper('eq', function(v1, v2) {
+  return v1 === v2;
+});
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -18,20 +22,11 @@ import { MailController } from './mail.controller';
           secure: config.get('MAIL_SECURE') === 'true',
           auth: {
             user: config.get('MAIL_USER'),
-            pass: config.get('MAIL_PASSWORD'),
           },
-        },
-        defaults: {
-          from: config.get('MAIL_FROM'),
         },
         template: {
           dir: join(__dirname, 'templates'),
-          adapter: new HandlebarsAdapter({
-            helpers: {
-              // Add custom handlebars helpers here
-              eq: (v1, v2) => v1 === v2,
-            },
-          }),
+          adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
           },
@@ -39,7 +34,6 @@ import { MailController } from './mail.controller';
       }),
     }),
   ],
-  controllers: [MailController],
   providers: [MailService],
   exports: [MailService],
 })
