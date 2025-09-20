@@ -14,8 +14,9 @@ import { VehicleCategoryModule } from './vehicle-category/vehicle-category.modul
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import {LoggerMiddleware} from  './logger.middleware'
-import {AllExceptionsFilter} from './http-exception.filter'
+import { LoggerMiddleware } from  './logger.middleware';
+import { AllExceptionsFilter } from './http-exception.filter';
+import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import {AllExceptionsFilter} from './http-exception.filter'
       isGlobal: true,
       envFilePath: '.env',
     }),
+    DatabaseModule,
+    LogsModule,
     UsersModule, 
     VehiclesModule, 
     BookingsModule, 

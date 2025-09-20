@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
         const isProduction =
           configService.get<string>('NODE_ENV') === 'production';
 
@@ -24,9 +26,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
           // ✅ Render-specific SSL for PostgreSQL
           ssl: isProduction ? { rejectUnauthorized: false } : false,
+          autoLoadEntities: true,
         };
       },
-      inject: [ConfigService],
     }),
   ],
 })
