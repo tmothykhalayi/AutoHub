@@ -30,10 +30,10 @@ import { ChangeRoleDto } from './dto/change-role.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
 
-@ApiTags('users')
-@ApiBearerAuth()
+//@ApiTags('users')
+//@ApiBearerAuth()
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolesGuard)
+//@UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
