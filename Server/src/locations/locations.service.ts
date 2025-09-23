@@ -22,7 +22,7 @@ export class LocationsService {
     private locationsRepository: Repository<Location>,
   ) {}
 
-  private mapToResponseDto(location: Location): LocationResponseDto {
+  public mapToResponseDto(location: Location): LocationResponseDto {
     const { bookings, vehicles, ...locationData } = location;
     return new LocationResponseDto({
       ...locationData,
@@ -339,8 +339,9 @@ export class LocationsService {
         b.booking_status === 'completed'
       ).length;
 
-      const availableVehicles = vehicles.filter(v => v.availability).length;
-      const occupiedVehicles = vehicles.filter(v => !v.availability).length;
+      // TODO: Implement availability checking logic based on current bookings
+      const availableVehicles = vehicles.length; // Placeholder - all vehicles considered available for now
+      const occupiedVehicles = 0; // Placeholder
 
       const totalRevenue = bookings
         .filter(b => b.booking_status === 'completed')

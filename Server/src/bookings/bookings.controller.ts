@@ -30,7 +30,7 @@ import { UserRole } from '../users/entities/user.entity';
 import { PaginationDto } from '../users/dto/pagination.dto';
 import { SearchBookingsDto } from './dto/search-bookings.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
-//import { AuthenticatedRequest } from '../../common/interfaces/request.interface';
+import { AuthenticatedRequest } from '../common/interfaces/request.interface';
 import { CancelBookingDto } from './dto/cancel-booking.dto';
 
 @ApiTags('bookings')
@@ -58,7 +58,7 @@ export class BookingsController {
   })
   async create(
     @Body() createBookingDto: CreateBookingDto,
-    // @Req() req: AuthenticatedRequest,
+    @Req() req: AuthenticatedRequest,
   ): Promise<BookingResponseDto> {
     return this.bookingsService.create(createBookingDto, req.user.userId);
   }

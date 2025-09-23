@@ -33,7 +33,7 @@ export class UsersService {
     return bcrypt.hash(password, saltRounds);
   }
 
-  private mapToResponseDto(user: User): UserResponseDto {
+  public mapToResponseDto(user: User): UserResponseDto {
     const { bookings, support_tickets, ...userData } = user;
     return new UserResponseDto(userData);
   }

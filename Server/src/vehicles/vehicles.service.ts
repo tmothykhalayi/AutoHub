@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { Vehicle } from './entities/vehicle.entity';
+import { VehicleResponseDto } from './dto/vehicle-response.dto';
 
 @Injectable()
 export class VehiclesService {
-  create(createVehicleDto: CreateVehicleDto) {
-    return 'This action adds a new vehicle';
+  constructor(
+    @InjectRepository(Vehicle)
+    private vehiclesRepository: Repository<Vehicle>,
+  ) {}
+
+  async create(createVehicleDto: CreateVehicleDto): Promise<VehicleResponseDto> {
+    const vehicle = this.vehiclesRepository.create(createVehicleDto);
+    const savedVehicle = await this.vehiclesRepository.save(vehicle);
+    return new VehicleResponseDto(savedVehicle);
   }
 
-  findAll() {
-    return `This action returns all vehicles`;
+  async findAll(): Promise<VehicleResponseDto[]> {
+    const vehicles = await this.vehiclesRepository.find({
+      relations: ['category', 'location'],
+    });
+    return vehicles.map(vehicle => new VehicleResponseDto(vehicle));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vehicle`;
+  async findOne(id: string): Promise<Vehicle> {
+    const vehicle = await this.vehiclesRepository.findOne({
+      where: { id },
+      relations: ['category', 'location', 'bookings'],
+    });
+    
+    if (!vehicle) {
+      throw new NotFoundException(`Vehicle with ID ${id} not found`);
+    }
+    
+    return vehicle;
   }
 
-  update(id: number, updateVehicleDto: UpdateVehicleDto) {
-    return `This action updates a #${id} vehicle`;
+  async update(id: string, updateVehicleDto: UpdateVehicleDto): Promise<VehicleResponseDto> {
+    const vehicle = await this.findOne(id);
+    Object.assign(vehicle, updateVehicleDto);
+    const updatedVehicle = await this.vehiclesRepository.save(vehicle);
+    return new VehicleResponseDto(updatedVehicle);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} vehicle`;
+  async remove(id: string): Promise<void> {
+    const vehicle = await this.findOne(id);
+    await this.vehiclesRepository.remove(vehicle);
   }
 }

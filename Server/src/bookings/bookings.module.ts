@@ -8,7 +8,7 @@ import { UsersModule } from '../users/users.module';
 import { VehiclesModule } from '../vehicles/vehicles.module';
 import { LocationsModule } from '../locations/locations.module';
 import { PaymentsModule } from '../payments/payments.module';
-import { EmailModule } from '../../common/email/email.module';
+import {MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { EmailModule } from '../../common/email/email.module';
     forwardRef(() => VehiclesModule),
     LocationsModule,
     PaymentsModule,
-    EmailModule,
+    MailModule,
   ],
   controllers: [BookingsController],
   providers: [BookingsService],
