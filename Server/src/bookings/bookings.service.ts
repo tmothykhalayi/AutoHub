@@ -288,6 +288,7 @@ export class BookingsService {
     }
   }
 
+  //Updating bookings from the databa-se
   async update(id: string, updateBookingDto: UpdateBookingDto): Promise<BookingResponseDto> {
     const queryRunner = this.bookingsRepository.manager.connection.createQueryRunner();
     await queryRunner.connect();
