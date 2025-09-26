@@ -27,10 +27,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
-import { PaginationDto } from '../../common/dto/pagination.dto';
+import { PaginationDto } from '../users/dto/pagination.dto';
 import { SearchSupportTicketsDto } from './dto/search-support-tickets.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { AuthenticatedRequest } from '../../common/interfaces/request.interface';
+import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 
 @ApiTags('support')
 @ApiBearerAuth()
