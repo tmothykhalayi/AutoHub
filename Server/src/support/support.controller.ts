@@ -1,4 +1,4 @@
-// src/modules/support/support.controller.ts
+
 import {
   Controller,
   Get,
@@ -31,7 +31,6 @@ import { PaginationDto } from '../users/dto/pagination.dto';
 import { SearchSupportTicketsDto } from './dto/search-support-tickets.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
-
 @ApiTags('support')
 @ApiBearerAuth()
 @Controller('support')
