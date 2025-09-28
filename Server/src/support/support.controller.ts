@@ -5,6 +5,7 @@ import {
   Post,
   Body,
   Patch,
+  
   Param,
   Delete,
   UseGuards,
@@ -72,7 +73,6 @@ export class SupportController {
   ): Promise<{ data: SupportTicketDto[]; pagination: any }> {
     return this.supportService.findAllTickets(paginationDto);
   }
-
   @Get('tickets/my-tickets')
   @ApiOperation({ summary: 'Get current user support tickets' })
   @ApiQuery({ name: 'page', required: false, type: Number })
