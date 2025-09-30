@@ -19,8 +19,8 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { SupportService } from './support.service';
-import { CreateSupportTicketDto } from './dto/create-support-ticket.dto';
-import { UpdateSupportTicketDto } from './dto/update-support-ticket.dto';
+import { CreateSupportTicketDto } from './dto/create-support.dto';
+import { UpdateSupportTicketDto } from './dto/update-support.dto';
 import { CreateTicketResponseDto } from './dto/create-ticket-response.dto';
 import { SupportTicketDto } from './dto/support-ticket.dto';
 import { SupportTicketResponseDto } from './dto/support-ticket-response.dto';
@@ -31,7 +31,7 @@ import { UserRole } from '../users/entities/user.entity';
 import { PaginationDto } from '../users/dto/pagination.dto';
 import { SearchSupportTicketsDto } from './dto/search-support-tickets.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import { AuthenticatedRequest } from '../common/interfaces/request.interface';
 @ApiTags('support')
 @ApiBearerAuth()
 @Controller('support')

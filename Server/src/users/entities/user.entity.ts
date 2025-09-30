@@ -13,7 +13,7 @@ import { Exclude } from 'class-transformer';
 
 import { Booking } from '../../bookings/entities/booking.entity';
 import { Payment } from '../../payments/entities/payment.entity';
-import { SupportTicket } from '../../support/entities/support.entity';
+import { Support } from '../../support/entities/support.entity';
 import { Role } from '../../auth/enums/role.enum';
 
 // For backward compatibility
@@ -87,10 +87,10 @@ export class User {
   })
   payments: Payment[];
 
-  @OneToMany(() => SupportTicket, ticket => ticket.user, {
+  @OneToMany(() => Support, ticket => ticket.user, {
     onDelete: 'SET NULL'
   })
-  support_tickets: SupportTicket[];
+  support_tickets: Support[];
 
   // Hooks
   @BeforeInsert()

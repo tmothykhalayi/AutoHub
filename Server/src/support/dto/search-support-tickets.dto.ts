@@ -6,12 +6,40 @@ import {
   IsUUID,
   IsDateString,
   IsBoolean,
+  IsNumber,
+  Min,
+  Max,
 } from 'class-validator';
 import { TicketStatus, TicketPriority, TicketCategory } from '../entities/support-ticket.entity';
-import { PaginationDto } from '../../../common/dto/pagination.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
-export class SearchSupportTicketsDto extends PaginationDto {
+export class SearchSupportTicketsDto {
+  @ApiPropertyOptional({
+    description: 'Page number',
+    example: 1,
+    default: 1,
+    minimum: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Transform(({ value }) => parseInt(value))
+  page?: number = 1;
+
+  @ApiPropertyOptional({
+    description: 'Number of items per page',
+    example: 10,
+    default: 10,
+    minimum: 1,
+    maximum: 100,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Max(100)
+  @Transform(({ value }) => parseInt(value))
+  limit?: number = 10;
   @ApiPropertyOptional({
     description: 'Search by subject or description',
     example: 'payment issue',
@@ -44,7 +72,7 @@ export class SearchSupportTicketsDto extends PaginationDto {
   @ApiPropertyOptional({
     description: 'Filter by category',
     enum: TicketCategory,
-    example: TicketCategory.PAYMENT,
+    example: Object.values(TicketCategory)[0], // Use first enum value as example
     required: false,
   })
   @IsOptional()

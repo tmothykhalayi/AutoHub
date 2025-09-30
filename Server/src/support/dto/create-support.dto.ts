@@ -12,7 +12,7 @@ import {
 import { TicketCategory, TicketPriority } from '../entities/support-ticket.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class CreateSupportTicket {
+export class CreateSupportTicketDto {
   @ApiProperty({
     description: 'Ticket subject',
     example: 'Issue with my booking payment',
@@ -37,7 +37,7 @@ export class CreateSupportTicket {
   @ApiProperty({
     description: 'Ticket category',
     enum: TicketCategory,
-    example: TicketCategory.PAYMENT,
+    example: Object.values(TicketCategory)[0], // Use the first available enum value
   })
   @IsEnum(TicketCategory)
   category: TicketCategory;

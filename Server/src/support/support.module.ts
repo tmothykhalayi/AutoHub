@@ -4,15 +4,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SupportService } from './support.service';
 import { SupportController } from './support.controller';
 import { SupportTicket } from './entities/support-ticket.entity';
-import { SupportTicketResponse } from './entities/support-ticket-response.entity';
+import { SupportTicketResponse } from './entities/support-ticket.entity';
 import { UsersModule } from '../users/users.module';
-import { EmailModule } from '../../common/email/email.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([SupportTicket, SupportTicketResponse]),
     forwardRef(() => UsersModule),
-    EmailModule,
+    MailModule,
   ],
   controllers: [SupportController],
   providers: [SupportService],

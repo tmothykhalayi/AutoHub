@@ -11,17 +11,16 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, Between, MoreThanOrEqual, LessThanOrEqual, In, Not, IsNull } from 'typeorm';
-import { SupportTicket, TicketStatus, TicketPriority, TicketCategory } from './entities/support-ticket.entity';
-import { SupportTicketResponse, ResponseType } from './entities/support-ticket-response.entity';
-import { CreateSupportTicketDto } from './dto/create-support-ticket.dto';
-import { UpdateSupportTicketDto } from './dto/update-support-ticket.dto';
+import { SupportTicket, TicketStatus, TicketPriority, TicketCategory, SupportTicketResponse, ResponseType } from './entities/support-ticket.entity';
+import { CreateSupportTicketDto} from './dto/create-support.dto';
+import { UpdateSupportTicketDto } from './dto/update-support.dto';
 import { CreateTicketResponseDto } from './dto/create-ticket-response.dto';
 import { SupportTicketDto } from './dto/support-ticket.dto';
 import { SupportTicketResponseDto } from './dto/support-ticket-response.dto';
 import { SearchSupportTicketsDto } from './dto/search-support-tickets.dto';
-import { PaginationDto } from '../../common/dto/pagination.dto';
+import { PaginationDto } from '../users/dto/pagination.dto';
 import { UsersService } from '../users/users.service';
-import { EmailService } from '../../common/email/email.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class SupportService {
@@ -34,7 +33,7 @@ export class SupportService {
     private ticketResponsesRepository: Repository<SupportTicketResponse>,
     @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
-    private emailService: EmailService,
+    private emailService: MailService,
   ) {}
 
   private generateTicketNumber(): string {
@@ -69,7 +68,7 @@ export class SupportService {
 
     try {
       // Validate user exists and is active
-      const user = await this.usersService.findByUserId(userId);
+      const user = await this.usersService.findOne(userId);
       if (!user.is_active) {
         throw new BadRequestException('User account is not active');
       }
@@ -84,10 +83,12 @@ export class SupportService {
       await queryRunner.commitTransaction();
 
       // Send confirmation email to user
-      await this.emailService.sendTicketConfirmation(user.email, savedTicket);
+      // TODO: Implement proper email notification
+      // await this.emailService.sendSupportTicketConfirmation(user.email, savedTicket);
 
       // Notify admins about new ticket
-      await this.notifyAdminsAboutNewTicket(savedTicket);
+      // TODO: Implement admin notification
+      // await this.notifyAdminsAboutNewTicket(savedTicket);
 
       return this.mapToTicketDto(savedTicket);
     } catch (error) {
@@ -214,7 +215,8 @@ export class SupportService {
 
       // Notify user about ticket update
       if (ticket.user) {
-        await this.emailService.sendTicketUpdate(ticket.user.email, updatedTicket);
+        // TODO: Implement sendTicketUpdate email notification
+        // await this.emailService.sendTicketUpdate(ticket.user.email, updatedTicket);
       }
 
       return this.mapToTicketDto(updatedTicket);
@@ -481,3 +483,7 @@ export class SupportService {
       if (error instanceof NotFoundException) {
         throw error;
       }
+      throw new InternalServerErrorException('Failed to close support ticket');
+    }
+  }
+}
